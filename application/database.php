@@ -18,11 +18,11 @@ return [
     // 服务器地址
     'hostname'    => '127.0.0.1',
     // 数据库名
-    'database'    => 'lyrics',
+    'database'    => 'MYSQL_DATABASE',
     // 数据库用户名
-    'username'    => 'root',
+    'username'    => 'MYSQL_USERNAME',
     // 数据库密码
-    'password'    => '',
+    'password'    => 'MYSQL_PASSWORD',
     // 数据库连接端口
     'hostport'    => '',
     // 数据库连接参数
