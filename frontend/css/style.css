@@ -1,0 +1,56 @@
+body{
+    font-family: "Microsoft Yahei", "微软雅黑", PingHei, "WenQuanYi Micro Hei", STHeiti, Arial, Helvetica, sans-serif;
+    background-color: white;
+}
+h1,h2,h3,h4,h5,h6{
+    font-family: "Microsoft Yahei", "微软雅黑", PingHei, "WenQuanYi Micro Hei", STHeiti, Arial, Helvetica, sans-serif;
+}
+/*滚动条*/
+::-webkit-scrollbar {  
+    width: 8px;
+    transition: all .2s;
+}
+::-webkit-scrollbar-thumb {  
+    border-radius: 10px;  
+    background: rgba(0,0,0,0.2);   
+}  
+::-webkit-scrollbar-thumb:window-inactive {  
+    background: rgba(0,0,0,0.1);   
+}  
+::-webkit-scrollbar-thumb:vertical:hover{  
+    background-color: rgba(0,0,0,0.3);  
+}
+::-webkit-scrollbar-thumb:vertical:active{  
+    background-color: rgba(0,0,0,0.7);  
+}
+/*==============*/
+.l-main{
+    margin-top: 80px;
+}
+.random-lyric{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.lyric-text{
+    font-size: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: normal;
+}
+.lyric-song{
+    text-align: right;
+    color: slategray;
+}
+.lyric-trans{
+    font-size: 30px;
+    text-align: center;
+}
+a{
+    -webkit-transition: all .2s linear;
+    -moz-transition: all .2s linear;
+    transition: all .2s linear;
+}
+a:hover{
+    text-decoration: none;
+    color: mediumseagreen;
+}
