@@ -268,28 +268,37 @@ class API extends Controller{
             ];
         }
         else{
-            $Users = D('User');
-            if (I('email') && I('nickname') && I('password')){
-                $Users->auto([
-                    'password'=> encrypt(I('password'))
-                ])->create();
-                $result = $Users->add();
-                if ($result){
-                    return [
-                        'status'=>'success'
-                    ];
+            if (I('token') and checkToken(I('token'))){
+                $Users = D('User');
+                if (I('email') && I('nickname') && I('password')){
+                    $Users->auto([
+                        'password'=> encrypt(I('password'))
+                    ])->field(['nickname','email','password'])->create();
+                    $result = $Users->add();
+                    if ($result){
+                        return [
+                            'status'=>'success'
+                        ];
+                    }
+                    else{
+                        return [
+                            'status'=>'fail'
+                        ];
+                    }
                 }
                 else{
+                    header("X-Powered-By:Misaka Network/1.0", true, 400);
                     return [
-                        'status'=>'fail'
+                        'status' => 'fail',
+                        'info' => 'Parameter missed.'
                     ];
                 }
             }
             else{
-                header("X-Powered-By:Misaka Network/1.0", true, 400);
+                header("X-Powered-By:Misaka Network/1.0", true, 403);
                 return [
                     'status' => 'fail',
-                    'info' => 'Parameter missed.'
+                    'info' => 'Invalid token.'
                 ];
             }
         }
