@@ -255,6 +255,45 @@ class API extends Controller{
             }
         }
     }
+    
+    /**
+     * 增加用户
+     */
+    public function adduser(){
+        if (!IS_POST){
+            header("X-Powered-By:Misaka Network/1.0", true, 405);
+            return [
+                'status' => 'fail',
+                'info' => 'POST!POST!POST!Baka!'
+            ];
+        }
+        else{
+            $Users = D('User');
+            if (I('email') && I('nickname') && I('password')){
+                $Users->auto([
+                    'password'=> encrypt(I('password'))
+                ])->create();
+                $result = $Users->add();
+                if ($result){
+                    return [
+                        'status'=>'success'
+                    ];
+                }
+                else{
+                    return [
+                        'status'=>'fail'
+                    ];
+                }
+            }
+            else{
+                header("X-Powered-By:Misaka Network/1.0", true, 400);
+                return [
+                    'status' => 'fail',
+                    'info' => 'Parameter missed.'
+                ];
+            }
+        }
+    }
 
 
     
