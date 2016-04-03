@@ -16,7 +16,7 @@ API 默认返回 JSON 格式的数据，支持跨域调用。
 
 **成功返回示例**
 
-```JSON
+```JavaScript
 {
     "status" : "success",
     "data"   : [
@@ -35,7 +35,7 @@ API 默认返回 JSON 格式的数据，支持跨域调用。
 ```
 **错误返回示例**
 
-```JSON
+```JavaScript
 {
     "status" : "fail",
     "info" : "" // 错误详细信息
@@ -57,7 +57,7 @@ API 默认返回 JSON 格式的数据，支持跨域调用。
 
 **成功返回示例**
 
-```JSON
+```JavaScript
 {
     "status" : "success",
     "data"   : [
@@ -77,7 +77,7 @@ API 默认返回 JSON 格式的数据，支持跨域调用。
 
 **错误返回示例**
 
-```JSON
+```JavaScript
 {
     "status" : "fail",
     "info" : "" // 错误详细信息
