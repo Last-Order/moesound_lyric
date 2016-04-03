@@ -244,10 +244,12 @@ class API extends Controller{
                 $_SESSION['is_login'] = true;
                 return [
                     'status' => 'success',
+                    'nickname' => $result['nickname'],
                     'token' => session_id()
                 ];
             }
             else{
+                header("X-Powered-By:Misaka Network/1.0", true, 401);
                 return [
                     'status' => 'fail',
                     'info' => 'Unmatched email and password.'
