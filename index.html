@@ -44,8 +44,10 @@
                     <li><a v-link="{ path: '/post' }">投稿</a></li>
                     <li><a v-link="{ path: '/getapi' }">API</a></li>
                     <li><a href="javascript:;" v-on:click="randomPage">随机页面</a></li>
+                    <li v-if="is_login"><a v-link="{ path: '/check' }">审核</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li v-if="is_login"><a href="javascript:;">{{ name }}</a></li>
                     <li><a href="http://moesound.org">萌音物语</a></li>
                 </ul>
             </div>
@@ -154,6 +156,65 @@
 GET /Api/random
 Host: lyrics.moesound.org
             </pre>
+        </div>
+    </script>
+    <script type="x-template" id="xtpl-login">
+        <div class="container-fluid">
+            <div v-if="is_login">
+                <p>你已经登录了。</p>
+                <button type="button" class="btn btn-primary btn-raised" v-on:click="logout">注销</button>
+            </div>
+            <form class="form-horizontal" v-on:submit.prevent="dologin" v-else>
+                <div class="form-group">
+                    <label for="us-email" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="us-email" placeholder="填入Email地址作为登录名" v-model="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="us-pass" class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="us-pass" placeholder="PASSWORD" v-model="password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary btn-raised">登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </script>
+    <script type="x-template" id="xtpl-check">
+        <div class="t-main well">
+            <h2>审核</h2>
+            <p>当前共有 {{ checkList.length }} 条歌词等待审核。</p>
+            <hr>
+            <template v-for="item in checkList">
+                <div class="row-fluid checkrow">
+                    <div class="col-xs-4">
+                        <div>{{ item.origin }}</div>
+                        <div>{{ item.translated }}</div>
+                    </div>
+                    <div class="col-xs-4">
+                        <p>id: {{ item.id }}</p>
+                        <p>来自：{{ item.song }}</p>
+                        <p>歌手：{{ item.artist }}</p>
+                        <p>作词：{{ item.lyricist }}</p>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group label-floating">
+                            <label class="control-label">拒绝原因</label>
+                            <input class="form-control" type="text" v-model="item.reason">
+                        </div>
+                        <div class="checkbuttons">
+                            <button type="button" class="btn btn-info btn-raised" data-id="{{ item.id }}" v-on:click="check">通过</button>
+                            <button type="button" class="btn btn-danger btn-raised" data-id="{{ item.id }}" v-on:click="reject">拒绝</button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </template>
         </div>
     </script>
     <!--scripts-->

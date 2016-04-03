@@ -54,3 +54,13 @@ a:hover{
     text-decoration: none;
     color: mediumseagreen;
 }
+.checkrow{
+    border-bottom: 1px solid #EEE;
+    padding-top: 20px;
+}
+.checkrow .form-group{
+    margin: 10px;
+}
+.checkbuttons{
+    padding-left: 10px;
+}
