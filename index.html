@@ -91,7 +91,7 @@
                 </div>
             </div>
             <div class="t-comment well">
-                此处加载评论：评论id: {{ id }}
+                <div id="comment-box">评论加载中。。。</div>
             </div>
         </div>
     </script>
@@ -144,7 +144,18 @@
             </form>
         </div>
     </script>
-    <script type="x-template"></script>
+    <script type="x-template" id="xtpl-getapi">
+        <div class="t-main well">
+            <h2>API参考</h2>
+            <hr>
+            <p>你可以使用API将 >ALyric 带到你自己的网站上。</p>
+            <pre>
+返回随机一条歌词内容
+GET /Api/random
+Host: lyrics.moesound.org
+            </pre>
+        </div>
+    </script>
     <!--scripts-->
     <script type="text/javascript" src="/frontend/libjs/jquery.min.js"></script>
     <script type="text/javascript" src="/frontend/libjs/bootstrap.min.js"></script>
@@ -152,6 +163,11 @@
     <script type="text/javascript" src="/frontend/libjs/ripples.min.js"></script>
     <script type="text/javascript" src="/frontend/libjs/vue.js"></script>
     <script type="text/javascript" src="/frontend/libjs/vue-router.js"></script>
+    <script type="text/javascript">
+        //多说组件初始化
+        var duoshuoQuery = { short_name: "alyric" };
+    </script>
+    <script type="text/javascript" src="http://static.duoshuo.com/embed.js"></script>
     <script type="text/javascript" src="/frontend/js/classes.js"></script>
     <script type="text/javascript" src="/frontend/js/main.js"></script>
 </body>

@@ -28,7 +28,9 @@ RandomLyric.prototype.random = function() {
 function DetailPage() {
     this.lyric = new Lyric({});
 }
-DetailPage.prototype.updateById = function(id) {
+DetailPage.prototype.updateById = function(id, callback) {
+    callback = callback || function() { };
+
     var self = this;
     $.ajax({
         url: apiUrl + "/info",
@@ -40,6 +42,7 @@ DetailPage.prototype.updateById = function(id) {
         success: function(data) {
             var songLyric = data.data;
             self.lyric.update(songLyric);
+            callback();
         },
         error: function(xhr, error, obj) {
             if (xhr.responseText.length > 0) {

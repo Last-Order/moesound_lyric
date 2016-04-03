@@ -32,23 +32,29 @@ $(function() {
         },
         route: {
             data: function() {
-                detailPage.updateById(this.$route.params.id);
+                var detailId = this.$route.params.id;
+                detailPage.updateById(detailId, function() {
+                    buildDuoshuoCommentBox(detailId);
+                });
             }
         }
     });
     //投稿
     var post = Vue.extend({
         template: '#xtpl-post',
-        data: function(){
+        data: function() {
             return submitPage;
         },
         methods: {
-            dosubmit: function(){
+            dosubmit: function() {
                 submitPage.submit();
             }
         }
     });
-
+    //API文档
+    var getApi = Vue.extend({
+        template: '#xtpl-getapi',
+    });
     var App = Vue.extend({
         methods: {
             random: function() {
@@ -72,6 +78,9 @@ $(function() {
         },
         '/post': {
             component: post
+        },
+        '/getapi': {
+            component: getApi
         }
     });
     router.start(App, '#app');
@@ -120,3 +129,12 @@ function modal(content, title, option) {
     });
 }
 window.modal = modal;
+
+//建立多说评论框
+function buildDuoshuoCommentBox(id) {
+    var el = document.createElement('div');
+    el.setAttribute('data-thread-key', id);
+    el.setAttribute('data-url', 'http://lyric.moesound.org/detail/' + id);
+    DUOSHUO.EmbedThread(el);
+    $("#comment-box").html(el);
+}
