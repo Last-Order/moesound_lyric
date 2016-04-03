@@ -304,6 +304,30 @@ class API extends Controller{
         }
     }
 
+    /**
+     * 检查是否登录
+     * @return array
+     */
+    public function islogin(){
+        if (!I('token')){
+            return [
+                'status' => 'success',
+                'data' => 'false'
+            ];
+        }
+        else if (I('token') && checkToken(I('token'))){
+            return [
+                'status' => 'success',
+                'data' => 'true'
+            ];
+        }
+        else{
+            return [
+                'status' => 'success',
+                'data' => 'false'
+            ];
+        }
+    }
 
     
 }
