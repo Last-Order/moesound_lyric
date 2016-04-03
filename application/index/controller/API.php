@@ -14,6 +14,7 @@ class API extends Controller{
      * @return mixed
      */
     public function info(){
+        header("Access-Control-Allow-Origin : *");
         $Lyrics = D('Lyrics');
         $result = $Lyrics->where(['id'=>I('id')])->find();
         if ($result){
@@ -51,10 +52,29 @@ class API extends Controller{
      * 获得未审核歌词列表
      */
     public function unchecked(){
-        return [
-            'status'=>'success',
-            'data' =>D('Lyrics')->where(['status'=>0])->select()
-        ];
+        if (I('token') && checkToken(I('token'))){
+            $Lyrics = D('Lyrics');
+            $result = $Lyrics->where(['status'=>0])->select();
+            if ($result){
+                return [
+                    'status'=>'success',
+                    'data' =>D('Lyrics')->where(['status'=>0])->select()
+                ];
+            }
+            else{
+                return [
+                    'status'=>'success',
+                    'data' => null
+                ];
+            }
+        }
+        else{
+            header("X-Powered-By:Misaka Network/1.0", true, 403);
+            return [
+                'status' => 'fail',
+                'info' => 'Invalid token.'
+            ];
+        }
     }
 
     /**
@@ -150,6 +170,7 @@ class API extends Controller{
      * @return array
      */
     public function random(){
+        header("Access-Control-Allow-Origin : *");
         return [
             'status' =>'success',
             'data' => D('Lyrics')->query('SELECT * FROM `lyrics` WHERE `status` = 1 ORDER BY RAND() LIMIT 1')
