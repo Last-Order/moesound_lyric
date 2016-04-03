@@ -69,11 +69,16 @@ class API extends Controller{
                     $Lyrics = D('Lyrics');
                     $result = $Lyrics->where(['id'=>I('id')])->save(['status'=>'1']);
                     if ($result){
+                        // 发送通知邮件
+                        $info = $Lyrics->where(['id'=>I('id')])->find();
+                        if ($info['email']){
+                            sendPassMail($info['email'], $info['origin'], $info['id']);
+                        }
                         return ['status'=>'success','affected_rows'=>$result];
                     }
                 }
                 else{
-                    header("X-Custom-Header", true, 400);
+                    header("X-Powered-By:Misaka Network/1.0", true, 400);
                     return ['status'=>'failed','info'=>'Parameter Missed'];
                 }
             }
@@ -95,6 +100,52 @@ class API extends Controller{
     }
 
     /**
+     * 拒绝歌词
+     * @return array
+     */
+    public function reject(){
+        if (IS_POST){
+            if (!I('reason')){
+                $reason = '不合适的歌词';
+            }
+            else{
+                $reason = I('reason');
+            }
+            if (I('token') && checkToken(I('token'))){
+                if (I('id')){
+                    $Lyrics = D('Lyrics');
+                    $result = $Lyrics->where(['id'=>I('id')])->save(['status'=>'450']);
+                    if ($result){
+                        // 发送通知邮件
+                        $info = $Lyrics->where(['id'=>I('id')])->find();
+                        if ($info['email']){
+                            sendNotPassMail($info['email'], $info['origin'], $reason);
+                        }
+                        return ['status'=>'success','affected_rows'=>$result];
+                    }
+                }
+                else{
+                    header("X-Powered-By:Misaka Network/1.0", true, 400);
+                    return ['status'=>'failed','info'=>'Parameter Missed'];
+                }
+            }
+            else{
+                header("X-Powered-By:Misaka Network/1.0", true, 403);
+                return [
+                    'status' => 'fail',
+                    'info' => 'Invalid token.'
+                ];
+            }
+        }
+        else{
+            header("X-Powered-By:Misaka Network/1.0", true, 405);
+            return [
+                'status' => 'fail',
+                'info' => 'POST!POST!POST!Baka!'
+            ];
+        }
+    }
+    /**
      * 获得一条随机歌词
      * @return array
      */
@@ -112,7 +163,7 @@ class API extends Controller{
     public function create(){
         if (IS_POST){
             $Lyrics = D('Lyrics');
-            if (I('email') && I('origin') && I('translated') && I('song') && I('artist') && I('lyricist')){
+            if (I('email') && I('origin') && I('song') && I('artist') && I('lyricist')){
                 $Lyrics->auto([
                     'status'=> 0
                 ])->create();
