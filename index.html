@@ -1,5 +1,159 @@
-Coming Soon!
+<html>
 
-<br>
+<head>
+    <meta charset="utf-8">
+    <title>>ALyric</title>
+    <link rel="stylesheet" type="text/css" href="/frontend/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/frontend/css/ripples.min.css">
+    <link rel="stylesheet" type="text/css" href="/frontend/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" type="text/css" href="/frontend/css/style.css">
+</head>
 
-2014~2016 Project MoeSound.
+<body>
+    <!--modal-->
+    <div class="modal fade" id="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modal-title">信息</h4>
+                </div>
+                <div class="modal-body" id="modal-content">
+                    <p>Sora~</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="modal-closebtn">关闭</button>
+                    <button type="button" class="btn btn-danger" id="modal-okbtn">确定</button>
+                    <button type="button" class="btn" data-dismiss="modal" id="modal-cancelbtn">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--navbar-->
+    <div id="app">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                    aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                    </button>
+                    <a class="navbar-brand" v-link="{ path: '/' }" v-on:click="random">>ALyric</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a v-link="{ path: '/post' }">投稿</a></li>
+                    <li><a v-link="{ path: '/getapi' }">API</a></li>
+                    <li><a href="javascript:;" v-on:click="randomPage">随机页面</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="http://moesound.org">萌音物语</a></li>
+                </ul>
+            </div>
+        </nav>
+        <!--main-->
+        <div class="container-fluid l-main">
+            <router-view></router-view>
+        </div>
+    </div>
+    <!--templates-->
+    <script type="x-template" id="xtpl-random">
+        <div class="random-lyric">
+            <div class="lyric-text">
+                <a v-link="{ path: '/detail/' + id }">{{ origin }}</a>
+            </div>
+            <div class="lyric-song">
+                ——<span>{{ song }}</span>
+            </div>
+        </div>
+    </script>
+    <script type="x-template" id="xtpl-maincontent">
+        <div class="t-main well">
+            <h2>>ALyric</h2>
+            <hr>
+            <p>分享你在那一句歌词中找到的感动。</p>
+            <h3><a v-link="{ path: '/getapi' }">在你的网站上显示</a></h3>
+            <h3><a v-link="{ path: '/post' }">与我们分享你喜欢的歌词</a></h3>
+        </div>
+    </script>
+    <script type="x-template" id="xtpl-detail">
+        <div>
+            <div class="t-detail well">
+                <div class="lyric-text">
+                    {{ origin }}
+                </div>
+                <div class="lyric-trans">
+                    {{ translated }}
+                </div>
+                <div class="lyric-song">
+                    <p>出处：<span>{{ song }}</span></p>
+                    <p>作词：<span>{{ lyricist }}</span></p>
+                    <p>歌手：<span>{{ artist }}</span></p>
+                </div>
+            </div>
+            <div class="t-comment well">
+                此处加载评论：评论id: {{ id }}
+            </div>
+        </div>
+    </script>
+    <script type="x-template" id="xtpl-post">
+        <div class="t-post well">
+            <h2>投稿</h2>
+            <hr>
+            <form class="form-horizontal" v-on:submit.prevent="dosubmit">
+                <div class="form-group">
+                    <label for="i-email" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="i-email" placeholder="留下E-mail地址来接收反馈" v-model="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="i-source" class="col-sm-2 control-label">出处</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="i-source" placeholder="歌名" v-model="song">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="i-ly" class="col-sm-2 control-label">作词</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="i-ly" placeholder="这首歌的作词者" v-model="lyricist">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="i-si" class="col-sm-2 control-label">歌手</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="i-si" placeholder="这首歌的演唱者" v-model="artist">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="i-con" class="col-sm-2 control-label">歌词</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="i-con" placeholder="填入你想要和我们分享的歌词" v-model="origin">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="i-tr" class="col-sm-2 control-label">翻译</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="i-tr" placeholder="如果歌词是外语，请填写歌词对应的翻译" v-model="translated">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary btn-raised">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </script>
+    <script type="x-template"></script>
+    <!--scripts-->
+    <script type="text/javascript" src="/frontend/libjs/jquery.min.js"></script>
+    <script type="text/javascript" src="/frontend/libjs/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/frontend/libjs/material.min.js"></script>
+    <script type="text/javascript" src="/frontend/libjs/ripples.min.js"></script>
+    <script type="text/javascript" src="/frontend/libjs/vue.js"></script>
+    <script type="text/javascript" src="/frontend/libjs/vue-router.js"></script>
+    <script type="text/javascript" src="/frontend/js/classes.js"></script>
+    <script type="text/javascript" src="/frontend/js/main.js"></script>
+</body>
+
+</html>
