@@ -2,3 +2,4 @@
 composer.lock
 *.log
 /application/database.php
+/application/runtime
